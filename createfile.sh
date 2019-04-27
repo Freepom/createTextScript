@@ -10,26 +10,28 @@
 # @brief    是否只创建头文件
 ###################################################
 
+#地址 需要手动修改
+addr="HOME 深圳龙华"
+
 if [ '-h' = $1 ];then
     echo "使用说明"
-    echo "<参数1>：文件名"
-    echo "<参数2>：简要的注释"
-    echo "[参数]：文件目录"
-    echo "[参数]：只创建头文件"
+    echo "举例1：./createfile.sh 文件名 注释 文件路径 yes"
+    echo "举例2：./createfile.sh 文件名 注释 文件路径"
+    echo "需要手动修改 addr=${addr} 的值"
     exit 0
 fi
 
 #判断参数
 if [ $# -lt 3 ] || [ $# -gt 4 ];then
-    echo "输入两个参数，第一个是文件名，第二个是文件的简要的注释 第三个是文件目录 第四个是否只创建头文件"
+    echo "输入参数，第一个是文件名，第二个是文件的简要的注释 第三个是文件目录 第四个是否只创建头文件"
+    echo "需要手动修改 addr=${addr} 的值"
+    echo "举例1：./createfile.sh 文件名 注释 文件路径 yes"
+    echo "举例2：./createfile.sh 文件名 注释 文件路径"
     exit 0
 fi
 
 if [ x"$3" != x"" ];then
-    if [ x"$3" = x"Onlyhead" ];then
-        cfile_creat=0
-        echo "Only head file"
-    elif [ ! -d $3 ];then
+    if [ ! -d $3 ];then
         mkdir -p $3
         cd $3
         echo `pwd`
@@ -39,7 +41,7 @@ if [ x"$3" != x"" ];then
     fi
 fi
 
-if [ x"$4" != x"" ] && [ x"$4" = x"Onlyhead" ];then
+if [ x"$4" != x"" ] && [ x"$4" = x"yes" ];then
     cfile_creat=0
     echo "Only head file"
 fi
@@ -59,6 +61,7 @@ fi
 
 #获取当前系统时间
 ls_date=`date +%Y-%m-%d`
+year=`date +%Y`
 # echo $ls_date
 
 name=`hostname`
@@ -174,7 +177,7 @@ echo "/**
     * @}
     */
 
-/************************ (C) HOME 2018 深圳龙华 *****END OF FILE****/
+/************************ (C) $year $addr *****END OF FILE****/
 " >> $1.c
 
 echo "`date '+%Y-%m-%d %H:%M:%S'` create $1.c finish"
@@ -283,7 +286,7 @@ echo "/**
 
 #endif /* __$UPPERCASE$H */
 
-/******************* (C) HOME 2018 深圳龙华 *****END OF FILE****/
+/******************* (C) $year $addr *****END OF FILE****/
 " >> $1.h
 
 echo "`date '+%Y-%m-%d %H:%M:%S'` create $1.h finish"
